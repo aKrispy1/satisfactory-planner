@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>FICSIT Planner v3 — CamJCreative</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
 <style>
 :root{
   --bg:#0a0c12;--bg2:#10131d;--bg3:#161a28;--bg4:#1d2235;
@@ -745,6 +746,176 @@ tr:hover td{background:rgba(255,255,255,.013)}
   text-align: left;
   transition: all 0.15s;
   width: 100%;
+}
+
+/* ── SAVE IMPORT PAGE ── */
+.import-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+@media(min-width:900px) {
+  .import-container {
+    grid-template-columns: 380px 1fr;
+  }
+}
+.upload-zone {
+  border: 2px dashed var(--border2);
+  background: var(--bg2);
+  border-radius: 16px;
+  padding: 3rem 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+.upload-zone:hover, .upload-zone.dragover {
+  border-color: var(--accent);
+  background: rgba(91, 110, 245, 0.05);
+  box-shadow: 0 0 15px rgba(91, 110, 245, 0.1);
+}
+.upload-icon {
+  font-size: 3rem;
+  color: var(--accent);
+  margin-bottom: 8px;
+  transition: transform 0.2s;
+}
+.upload-zone:hover .upload-icon {
+  transform: translateY(-4px);
+}
+.upload-title {
+  font-size: 15px;
+  font-weight: 600;
+}
+.upload-sub {
+  font-size: 11px;
+  color: var(--muted);
+  max-width: 250px;
+}
+.upload-file-input {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+.save-meta-card {
+  margin-top: 1.25rem;
+}
+.meta-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+}
+.meta-row:last-child {
+  border-bottom: none;
+}
+.meta-label {
+  color: var(--muted);
+}
+.meta-val {
+  font-weight: 600;
+  color: var(--text);
+}
+.import-progress-container {
+  display: none;
+  background: var(--bg3);
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-top: 1.25rem;
+  border: 1px solid var(--border);
+}
+.import-progress-bar {
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+.import-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  width: 0%;
+  transition: width 0.1s ease;
+}
+.import-results-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.import-results-table th {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 2px solid var(--border2);
+  color: var(--muted);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.import-results-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+.import-results-table tr:hover {
+  background: rgba(255, 255, 255, 0.01);
+}
+.import-item-icon {
+  width: 24px;
+  height: 24px;
+  background: var(--bg3);
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  margin-right: 10px;
+  border: 1px solid var(--border);
+}
+.import-action-bar {
+  display: flex;
+  gap: 12px;
+  margin-top: 1.25rem;
+}
+.import-btn {
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font);
+}
+.import-btn.primary {
+  background: var(--accent);
+  color: #fff;
+  border-color: rgba(91, 110, 245, 0.35);
+  box-shadow: 0 4px 12px rgba(91, 110, 245, 0.2);
+}
+.import-btn.primary:hover {
+  background: #475ae2;
+  box-shadow: 0 4px 15px rgba(91, 110, 245, 0.35);
+}
+.import-btn.secondary {
+  background: var(--bg3);
+  color: var(--text);
+  border-color: var(--border);
+}
+.import-btn.secondary:hover {
+  background: var(--bg4);
+  border-color: var(--border2);
+}
+
 /* ── COLLAPSIBLE PANELS & CARDS ── */
 .panel .ph, .scard .shead {
   cursor: pointer;
@@ -1075,6 +1246,7 @@ tr:hover td{background:rgba(255,255,255,.013)}
       <button class="nav-tab" data-page="canvas">🎨 Canvas Layout</button>
       <button class="nav-tab" data-page="power">⚡ Power</button>
       <button class="nav-tab" data-page="export">↗ Export</button>
+      <button class="nav-tab" data-page="import">💾 Import Save</button>
     </div>
   </div>
 </header>
@@ -1268,6 +1440,55 @@ tr:hover td{background:rgba(255,255,255,.013)}
   </div>
   <div style="margin-bottom:12px;font-size:12px;color:var(--muted)">Export reflects your current calculator result and full multi-planner list.</div>
   <div class="export-preview" id="export-preview">No data yet. Run the calculator or add items to the multi-planner first.</div>
+</div>
+
+<!-- ══════════════════ IMPORT SAVE PAGE (💾) ══════════════════ -->
+<div class="page" id="page-import">
+  <div class="import-container">
+    <aside class="import-sidebar">
+      <!-- File Upload Zone -->
+      <div class="upload-zone" id="import-upload-zone">
+        <div class="upload-icon">💾</div>
+        <div class="upload-title">Import Satisfactory Save</div>
+        <div class="upload-sub">Drag and drop your <strong>.sav</strong> file here, or click to browse.</div>
+        <input type="file" class="upload-file-input" id="import-file-input" accept=".sav"/>
+      </div>
+      
+      <!-- Save File Metadata -->
+      <div class="panel save-meta-card" id="import-meta-panel" style="display:none;">
+        <div class="ph"><div class="pdot" style="background:var(--accent);box-shadow:0 0 8px var(--accent)"></div><span class="ptitle">Save Info</span></div>
+        <div class="pb" id="import-meta-content"></div>
+      </div>
+      
+      <!-- Decompression Progress -->
+      <div class="import-progress-container" id="import-progress-card">
+        <div class="ptitle" id="import-progress-title" style="font-size:9px;">Decompressing save data...</div>
+        <div class="import-progress-bar">
+          <div class="import-progress-fill" id="import-progress-fill"></div>
+        </div>
+      </div>
+    </aside>
+    
+    <main class="import-main-results" style="flex:1">
+      <div class="panel" style="height: 100%; min-height: 400px;">
+        <div class="ph">
+          <div class="pdot" style="background:var(--success);box-shadow:0 0 8px var(--success)"></div>
+          <span class="ptitle" id="import-results-title">Detected Factory Production</span>
+        </div>
+        <div class="pb" id="import-results-container">
+          <div class="empty-state" style="padding: 6rem 2rem; border: none; margin-bottom: 0;">
+            <div class="empty-ico">💾</div>
+            <div class="empty-t">No save file loaded</div>
+            <div class="empty-s">Upload your Satisfactory save file (.sav) to see your global factory stats and import your configuration.</div>
+            <div class="empty-s" style="margin-top: 15px; font-size: 11px; opacity: 0.7;">
+              Saves are usually located in:<br/>
+              <code>%LOCALAPPDATA%\FactoryGame\Saved\SaveGames\</code>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
 </div>
 
 <!-- ══════════════════ POWER PAGE ══════════════════ -->
@@ -3566,6 +3787,7 @@ initNavTabs();
 initPower();
 calcPower();
 initDistribution();
+initSaveImport();
 
 document.getElementById("srch").addEventListener("input",renderList);
 document.getElementById("qty").addEventListener("input",()=>{if(activeItem)calculate();});
@@ -3603,6 +3825,551 @@ document.getElementById("exp-json").addEventListener("click",()=>{
   const data={calculator:lastCalcResult?{item:lastCalcResult.name,qty:lastCalcResult.qty,oc:lastCalcResult.oc,machines:lastCalcResult.machines,totalMW:lastCalcResult.totalMW}:null,planner:planItems.map(p=>({id:p.id,name:R[p.id].name,qty:p.qty}))};
   downloadFile(JSON.stringify(data,null,2),"ficsit-factory-plan.json","application/json");
 });
+
+/* ══════════ SAVE IMPORT MODULE (💾) ══════════ */
+let importState = {
+  metadata: null,
+  detectedRecipes: []
+};
+
+function mapRecipeToDbKey(recipeName) {
+  const name = recipeName.replace(/^Recipe_/, '').replace(/_C$/, '');
+  
+  const explicit = {
+    "IngotIron": "iron_ingot",
+    "IngotCopper": "copper_ingot",
+    "IngotCaterium": "caterium_ingot",
+    "IngotSteel": "steel_ingot",
+    "IngotAluminum": "aluminum_ingot_alt",
+    "IronPlateReinforced": "reinforced_iron_plate",
+    "ModularFrameHeavy": "heavy_modular_frame",
+    "ComputerSuper": "supercomputer",
+    "SpaceElevatorPart_1": "smart_plating",
+    "SpaceElevatorPart_2": "automated_wiring",
+    "SpaceElevatorPart_3": "modular_engine",
+    "SpaceElevatorPart_4": "adaptive_control_unit",
+    "SpaceElevatorPart_5": "assembly_director_system",
+    "Concrete": "concrete",
+    "IronPlate": "iron_plate",
+    "IronRod": "iron_rod",
+    "Screw": "screw",
+    "Rotor": "rotor",
+    "ModularFrame": "modular_frame",
+    "Wire": "wire",
+    "Cable": "cable",
+    "CopperSheet": "copper_sheet",
+    "Quickwire": "quickwire",
+    "QuartzCrystal": "quartz_crystal",
+    "Silica": "silica",
+    "SteelBeam": "steel_beam",
+    "SteelPipe": "steel_pipe",
+    "EncasedIndustrialBeam": "encased_industrial_beam",
+    "VersatileFramework": "versatile_framework",
+    "Stator": "stator",
+    "Motor": "motor",
+    "CircuitBoard": "circuit_board",
+    "Computer": "computer",
+    "AILimiter": "ai_limiter",
+    "HighSpeedConnector": "high_speed_connector",
+    "CrystalOscillator": "crystal_oscillator",
+    "Plastic": "plastic",
+    "Rubber": "rubber",
+    "Fuel": "fuel",
+    "HeavyOilResidue": "heavy_oil_residue",
+    "PetroleumCoke": "petroleum_coke",
+    "SulfuricAcid": "sulfuric_acid",
+    "AluminaSolution": "alumina_solution",
+    "AluminumScrap": "aluminum_scrap",
+    "AlcladAluminumSheet": "alclad_aluminum_sheet",
+    "AluminumCasing": "aluminum_casing",
+    "HeatSink": "heat_sink",
+    "CoolingSystem": "cooling_system",
+    "FusedModularFrame": "fused_modular_frame",
+    "UraniumCell": "uranium_cell",
+    "ElectromagneticControlRod": "electromagnetic_control_rod",
+    "RadioControlUnit": "radio_control_unit",
+    "TurboMotor": "turbo_motor",
+    "Battery": "battery",
+    "SamFluctuator": "sam_fluctuator",
+    "NuclearFuelRod": "nuclear_fuel_rod"
+  };
+  
+  if (explicit[name]) return explicit[name];
+  
+  // Fuzzy / Alternate recipe mapping
+  const cleaned = name.toLowerCase().replace(/alternate_/, '').replace(/pure/, '').replace(/basic/, '');
+  for (const key in explicit) {
+    const keyLower = key.toLowerCase();
+    if (cleaned.includes(keyLower) || keyLower.includes(cleaned)) {
+      return explicit[key];
+    }
+  }
+  
+  // Handcoded fallback substrings
+  if (cleaned.includes("ironingot") || cleaned.includes("ingotiron")) return "iron_ingot";
+  if (cleaned.includes("copperingot") || cleaned.includes("ingotcopper")) return "copper_ingot";
+  if (cleaned.includes("cateriumingot") || cleaned.includes("ingotcaterium")) return "caterium_ingot";
+  if (cleaned.includes("steelingot") || cleaned.includes("ingotsteel")) return "steel_ingot";
+  if (cleaned.includes("aluminumingot") || cleaned.includes("ingotaluminum")) return "aluminum_ingot_alt";
+  if (cleaned.includes("reinforced")) return "reinforced_iron_plate";
+  if (cleaned.includes("heavymodular") || cleaned.includes("heavyframe")) return "heavy_modular_frame";
+  if (cleaned.includes("screw")) return "screw";
+  if (cleaned.includes("wire")) return "wire";
+  if (cleaned.includes("cable")) return "cable";
+  if (cleaned.includes("rotor")) return "rotor";
+  if (cleaned.includes("stator")) return "stator";
+  if (cleaned.includes("motor")) return "motor";
+  if (cleaned.includes("concrete")) return "concrete";
+  
+  return null;
+}
+
+function initSaveImport() {
+  const uploadZone = document.getElementById("import-upload-zone");
+  const fileInput = document.getElementById("import-file-input");
+  const metaPanel = document.getElementById("import-meta-panel");
+  const metaContent = document.getElementById("import-meta-content");
+  const progressCard = document.getElementById("import-progress-card");
+  const progressTitle = document.getElementById("import-progress-title");
+  const progressFill = document.getElementById("import-progress-fill");
+  const resultsContainer = document.getElementById("import-results-container");
+
+  if (!uploadZone) return;
+
+  // Drag and Drop events
+  uploadZone.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    uploadZone.classList.add("dragover");
+  });
+  uploadZone.addEventListener("dragleave", () => {
+    uploadZone.classList.remove("dragover");
+  });
+  uploadZone.addEventListener("drop", (e) => {
+    e.preventDefault();
+    uploadZone.classList.remove("dragover");
+    const file = e.dataTransfer.files[0];
+    if (file) handleSaveFile(file);
+  });
+  fileInput.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (file) handleSaveFile(file);
+  });
+
+  function updateProgress(title, percent) {
+    progressCard.style.display = "block";
+    progressTitle.textContent = title;
+    progressFill.style.width = percent + "%";
+  }
+
+  function hideProgress() {
+    progressCard.style.display = "none";
+  }
+
+  function handleSaveFile(file) {
+    if (!file.name.endsWith('.sav')) {
+      alert("Please upload a valid Satisfactory save file (.sav).");
+      return;
+    }
+
+    updateProgress("Reading file header...", 10);
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      try {
+        const arrayBuffer = e.target.result;
+        const data = new Uint8Array(arrayBuffer);
+        
+        setTimeout(() => {
+          parseSaveData(data);
+        }, 50);
+      } catch (err) {
+        console.error(err);
+        alert("Failed to read save file: " + err.message);
+        hideProgress();
+      }
+    };
+    reader.readAsArrayBuffer(file);
+  }
+
+  function parseSaveData(data) {
+    let offset = 0;
+    
+    function readInt32() {
+      const val = new DataView(data.buffer, data.byteOffset + offset, 4).getInt32(0, true);
+      offset += 4;
+      return val;
+    }
+    
+    function readInt64() {
+      const val = new DataView(data.buffer, data.byteOffset + offset, 8).getBigInt64(0, true);
+      offset += 8;
+      return val;
+    }
+    
+    function readByte() {
+      const val = data[offset];
+      offset += 1;
+      return val;
+    }
+    
+    function readString() {
+      const length = readInt32();
+      if (length === 0) return "";
+      if (length > 0) {
+        const bytes = data.subarray(offset, offset + length - 1);
+        offset += length;
+        return new TextDecoder('utf-8').decode(bytes);
+      } else {
+        const byteLen = Math.abs(length) * 2;
+        const bytes = data.subarray(offset, offset + byteLen - 2);
+        offset += byteLen;
+        return new TextDecoder('utf-16le').decode(bytes);
+      }
+    }
+
+    try {
+      const header = {};
+      header.saveHeaderType = readInt32();
+      header.saveVersion = readInt32();
+      header.buildVersion = readInt32();
+      
+      if (header.saveHeaderType >= 14) {
+        header.saveName = readString();
+      }
+      header.mapName = readString();
+      header.mapOptions = readString();
+      header.sessionName = readString();
+      header.playDurationSeconds = readInt32();
+      header.saveDateTime = readInt64().toString();
+      header.sessionVisibility = readByte();
+      
+      if (header.saveHeaderType >= 7) {
+        header.fEditorObjectVersion = readInt32();
+      }
+      if (header.saveHeaderType >= 8) {
+        header.rawModMetadataString = readString();
+        header.isModdedSave = readInt32();
+      }
+      if (header.saveHeaderType >= 10) {
+        header.saveIdentifier = readString();
+      }
+      if (header.saveHeaderType >= 11) {
+        header.partitionEnabledFlag = readInt32() === 1;
+      }
+      if (header.saveHeaderType >= 12) {
+        offset += 16;
+      }
+      if (header.saveHeaderType >= 13) {
+        header.creativeModeEnabled = readInt32() === 1;
+      }
+
+      updateProgress("Locating compressed body...", 30);
+      
+      // Find the first chunk magic starting from 'offset'
+      let chunkStart = -1;
+      for (let i = offset; i < data.length - 8; i++) {
+        if (data[i] === 0xC1 && data[i+1] === 0x83 && (data[i+2] === 0x2A || data[i+2] === 0x2C) && data[i+3] === 0x9E) {
+          const ver = new DataView(data.buffer, data.byteOffset + i + 4, 4).getUint32(0, true);
+          if (ver === 0x22222222 || ver === 0x00000000) {
+            chunkStart = i;
+            break;
+          }
+        }
+      }
+      
+      if (chunkStart === -1) {
+        throw new Error("Could not locate compressed body chunks. File may be corrupt or uncompressed.");
+      }
+
+      // Now read body chunks and decompress in a loop
+      const decompressedChunks = [];
+      let chunkIndex = 0;
+      
+      function decompressNextChunk() {
+        if (chunkStart >= data.length) {
+          finalizeDecompression(decompressedChunks, header);
+          return;
+        }
+
+        if (data.length - chunkStart < 48) {
+          finalizeDecompression(decompressedChunks, header);
+          return;
+        }
+
+        const chunkHeaderVersion = new DataView(data.buffer, data.byteOffset + chunkStart + 4, 4).getUint32(0, true);
+        const chunkHeaderSize = chunkHeaderVersion === 0x00000000 ? 48 : 49;
+        
+        const compressedOffset = chunkHeaderVersion === 0x00000000 ? 16 : 17;
+        const chunkCompressedLength = new DataView(data.buffer, data.byteOffset + chunkStart + compressedOffset, 4).getInt32(0, true);
+        
+        if (chunkCompressedLength <= 0 || chunkStart + chunkHeaderSize + chunkCompressedLength > data.length) {
+          finalizeDecompression(decompressedChunks, header);
+          return;
+        }
+
+        const compressedData = data.subarray(chunkStart + chunkHeaderSize, chunkStart + chunkHeaderSize + chunkCompressedLength);
+        
+        try {
+          const decompressed = window.pako.inflate(compressedData);
+          decompressedChunks.push(decompressed);
+        } catch (e) {
+          console.error("Chunk decompression failed:", e);
+          finalizeDecompression(decompressedChunks, header);
+          return;
+        }
+        
+        chunkStart += chunkHeaderSize + chunkCompressedLength;
+        chunkIndex++;
+
+        const pct = Math.round(30 + (chunkStart / data.length) * 55);
+        updateProgress(`Decompressing chunk ${chunkIndex}...`, pct);
+
+        setTimeout(decompressNextChunk, 0);
+      }
+
+      decompressNextChunk();
+      
+    } catch (err) {
+      console.error(err);
+      alert("Failed to parse save file: " + err.message);
+      hideProgress();
+    }
+  }
+
+  function finalizeDecompression(decompressedChunks, header) {
+    updateProgress("Merging decompressed chunks...", 90);
+    
+    setTimeout(() => {
+      let totalLength = decompressedChunks.reduce((acc, c) => acc + c.length, 0);
+      let merged = new Uint8Array(totalLength);
+      let writeOffset = 0;
+      for (const chunk of decompressedChunks) {
+        merged.set(chunk, writeOffset);
+        writeOffset += chunk.length;
+      }
+      
+      updateProgress("Scanning for active factory recipes...", 95);
+      
+      setTimeout(() => {
+        scanForRecipes(merged, header);
+      }, 50);
+    }, 50);
+  }
+
+  function scanForRecipes(merged, header) {
+    const text = new TextDecoder('utf-8', { fatal: false }).decode(merged);
+    
+    const regex = /Recipe_[A-Za-z0-9_]+/g;
+    let match;
+    let counts = {};
+    while ((match = regex.exec(text)) !== null) {
+      const name = match[0];
+      counts[name] = (counts[name] || 0) + 1;
+    }
+
+    const detected = [];
+    
+    for (const key in counts) {
+      if (!key.endsWith('_C')) continue;
+      
+      const dbKey = mapRecipeToDbKey(key);
+      if (dbKey && R[dbKey]) {
+        const count = counts[key] - 1;
+        if (count > 0) {
+          detected.push({
+            id: dbKey,
+            saveKey: key,
+            count: count,
+            name: R[dbKey].name,
+            ico: R[dbKey].ico || "📦",
+            rate: count * R[dbKey].out
+          });
+        }
+      }
+    }
+    
+    detected.sort((a, b) => b.count - a.count);
+    
+    importState.metadata = header;
+    importState.detectedRecipes = detected;
+    
+    hideProgress();
+    renderImportResults();
+  }
+
+  function renderImportResults() {
+    const metaContent = document.getElementById("import-meta-content");
+    const resultsContainer = document.getElementById("import-results-container");
+    
+    if (!importState.metadata) return;
+    
+    metaPanel.style.display = "block";
+    const h = importState.metadata;
+    
+    const hrs = (h.playDurationSeconds / 3600).toFixed(1);
+    
+    let dateStr = "Unknown";
+    if (h.saveDateTime) {
+      try {
+        const unixMs = Number((BigInt(h.saveDateTime) - 621355968000000000n) / 10000n);
+        dateStr = new Date(unixMs).toLocaleString();
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    
+    metaContent.innerHTML = `
+      <div class="meta-row"><span class="meta-label">Session Name</span><span class="meta-val">${h.sessionName || "N/A"}</span></div>
+      <div class="meta-row"><span class="meta-label">Play Time</span><span class="meta-val">${hrs} hrs</span></div>
+      <div class="meta-row"><span class="meta-label">Save Date</span><span class="meta-val" style="font-size:10px;">${dateStr}</span></div>
+      <div class="meta-row"><span class="meta-label">Build Version</span><span class="meta-val">${h.buildVersion || "N/A"}</span></div>
+      <div class="meta-row"><span class="meta-label">Creative Mode</span><span class="meta-val" style="color:${h.creativeModeEnabled ? 'var(--warn)' : 'var(--muted)'}">${h.creativeModeEnabled ? 'Yes' : 'No'}</span></div>
+      <div class="meta-row"><span class="meta-label">Modded Save</span><span class="meta-val" style="color:${h.isModdedSave ? 'var(--danger)' : 'var(--muted)'}">${h.isModdedSave ? 'Yes' : 'No'}</span></div>
+    `;
+    
+    if (importState.detectedRecipes.length === 0) {
+      resultsContainer.innerHTML = `
+        <div class="empty-state" style="padding: 6rem 2rem; border: none; margin-bottom: 0;">
+          <div class="empty-ico">⚙</div>
+          <div class="empty-t">No production machines found</div>
+          <div class="empty-s">The save file was parsed successfully, but we didn't detect any active smelters, constructors, assemblers, or manufacturers.</div>
+        </div>
+      `;
+      return;
+    }
+    
+    let tableHtml = `
+      <div style="overflow-x:auto; margin-bottom: 1.25rem;">
+        <table class="import-results-table">
+          <thead>
+            <tr>
+              <th style="width: 40px; text-align: center;"><input type="checkbox" id="import-select-all" checked/></th>
+              <th>Item / Recipe</th>
+              <th style="text-align: right;">Active Machines</th>
+              <th style="text-align: right;">Est. Output Rate</th>
+            </tr>
+          </thead>
+          <tbody>
+    `;
+    
+    importState.detectedRecipes.forEach((r, idx) => {
+      tableHtml += `
+        <tr>
+          <td style="text-align: center;"><input type="checkbox" class="import-item-select" data-index="${idx}" checked/></td>
+          <td>
+            <span class="import-item-icon">${r.ico}</span>
+            <strong style="color:var(--text);">${r.name}</strong>
+            <div style="font-size: 10px; color: var(--muted); margin-left: 34px;">${r.saveKey.replace('_C', '')}</div>
+          </td>
+          <td style="text-align: right; font-weight: 600;">${r.count}</td>
+          <td style="text-align: right; font-weight: 600; color: var(--success);">${r.rate.toLocaleString()}/min</td>
+        </tr>
+      `;
+    });
+    
+    tableHtml += `
+          </tbody>
+        </table>
+      </div>
+      
+      <div class="import-action-bar">
+        <button class="import-btn primary" id="import-btn-planner">📋 Import to Multi-Planner</button>
+        <button class="import-btn secondary" id="import-btn-dist">🌳 View in Distribution Mode</button>
+      </div>
+    `;
+    
+    resultsContainer.innerHTML = tableHtml;
+    
+    const selectAllCheck = document.getElementById("import-select-all");
+    const itemChecks = document.querySelectorAll(".import-item-select");
+    
+    selectAllCheck.addEventListener("change", (e) => {
+      itemChecks.forEach(chk => chk.checked = e.target.checked);
+    });
+    
+    document.getElementById("import-btn-planner").addEventListener("click", () => {
+      const selected = getSelectedImportItems();
+      if (selected.length === 0) {
+        alert("Please select at least one item to import.");
+        return;
+      }
+      
+      const overwrite = confirm("Would you like to clear your current Multi-Planner list before importing? (Click Cancel to merge/append instead)");
+      if (overwrite) {
+        planItems = [];
+      }
+      
+      selected.forEach(s => {
+        const existing = planItems.find(p => p.id === s.id);
+        if (existing) {
+          existing.qty += s.rate;
+        } else {
+          planItems.push({ id: s.id, qty: s.rate });
+        }
+      });
+      
+      renderPlanItems();
+      
+      // Navigate to Multi-Planner
+      document.querySelectorAll(".nav-tab").forEach(t => t.classList.remove("active"));
+      document.querySelector('[data-page="multi"]').classList.add("active");
+      document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+      document.getElementById("page-multi").classList.add("active");
+      
+      alert(`Successfully imported ${selected.length} items to your Multi-Planner!`);
+    });
+    
+    document.getElementById("import-btn-dist").addEventListener("click", () => {
+      const selected = getSelectedImportItems();
+      if (selected.length === 0) {
+        alert("Please select at least one item to view.");
+        return;
+      }
+      
+      const defaultStart = selected.find(s => s.id === "iron_ingot") || selected[0];
+      
+      distState.startItem = defaultStart.id;
+      distState.supplyRate = defaultStart.rate;
+      
+      distState.products = selected.filter(s => s.id !== defaultStart.id).map(s => ({
+        id: s.id,
+        rate: s.rate
+      }));
+      
+      distState.exclusions.clear();
+      
+      const startSelect = document.getElementById("dist-start-item");
+      if (startSelect) {
+        startSelect.value = distState.startItem;
+      }
+      const supplyInput = document.getElementById("dist-supply-rate");
+      if (supplyInput) {
+        supplyInput.value = distState.supplyRate;
+      }
+      
+      renderDistribution();
+      
+      // Navigate to Distribution tab
+      document.querySelectorAll(".nav-tab").forEach(t => t.classList.remove("active"));
+      document.querySelector('[data-page="dist"]').classList.add("active");
+      document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+      document.getElementById("page-dist").classList.add("active");
+      
+      alert(`Loaded ${defaultStart.name} as supply and ${distState.products.length} products into Distribution Mode!`);
+    });
+  }
+
+  function getSelectedImportItems() {
+    const selected = [];
+    const itemChecks = document.querySelectorAll(".import-item-select");
+    itemChecks.forEach(chk => {
+      if (chk.checked) {
+        const index = parseInt(chk.dataset.index);
+        selected.push(importState.detectedRecipes[index]);
+      }
+    });
+    return selected;
+  }
+}
 
 // Collapsible panels & section cards
 document.addEventListener("click", (e) => {
