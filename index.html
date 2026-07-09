@@ -199,18 +199,179 @@ tr:hover td{background:rgba(255,255,255,.013)}
 .stot.c .stot-val{color:var(--accent3)}
 
 /* EXPORT */
-.export-btns{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1.5rem}
 .ebtn{display:flex;align-items:center;gap:7px;padding:10px 18px;border-radius:10px;border:1px solid var(--border2);background:var(--bg3);color:var(--text);font-family:var(--font);font-size:13px;font-weight:600;cursor:pointer;transition:all .15s}
 .ebtn:hover{background:var(--bg4);border-color:var(--accent)}
 .ebtn.primary{background:linear-gradient(135deg,var(--accent),var(--accent2));border-color:transparent;color:#fff}
 .ebtn.primary:hover{opacity:.9}
-.export-preview{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:1.5rem;font-family:var(--mono);font-size:12px;color:var(--muted);white-space:pre-wrap;line-height:1.8;max-height:500px;overflow-y:auto}
-.export-preview .hi{color:var(--accent)}
-.export-preview .hi2{color:var(--accent3)}
-.export-preview .hi3{color:var(--gold)}
-.export-preview .dim{color:var(--dim)}
 .copy-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--success);color:#0a0c12;font-family:var(--font);font-size:13px;font-weight:700;padding:10px 24px;border-radius:30px;opacity:0;transition:opacity .25s;pointer-events:none;z-index:999}
 .copy-toast.show{opacity:1}
+
+/* ── EXPORT LAYOUT & STYLES ── */
+.export-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+@media(min-width:900px) {
+  .export-layout {
+    grid-template-columns: 320px 1fr;
+  }
+}
+.chk-lbl {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text);
+  cursor: pointer;
+  user-select: none;
+}
+.chk-lbl input {
+  cursor: pointer;
+}
+.export-report-preview {
+  background: var(--p-bg);
+  color: var(--p-text);
+  border: 1px solid var(--p-border);
+  border-radius: 16px;
+  padding: 2.5rem;
+  max-height: 700px;
+  overflow-y: auto;
+  font-family: var(--font);
+  transition: all 0.2s ease;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  position: relative;
+}
+.export-report-preview.theme-dark {
+  background: #0a0c12;
+  border-color: rgba(99,120,255,0.15);
+  color: #e8eaf6;
+  --p-bg: #0a0c12;
+  --p-bg2: #10131d;
+  --p-border: rgba(99,120,255,0.15);
+  --p-text: #e8eaf6;
+  --p-muted: #7b82a8;
+  --p-accent: #5b6ef5;
+  --p-success: #34d399;
+}
+.export-report-preview.theme-light {
+  background: #ffffff;
+  border-color: #dcdde1;
+  color: #111111;
+  --p-bg: #ffffff;
+  --p-bg2: #f5f6fa;
+  --p-border: #dcdde1;
+  --p-text: #111111;
+  --p-muted: #57606f;
+  --p-accent: #3742fa;
+  --p-success: #2ed573;
+}
+
+/* ── REPORT HTML STYLING ── */
+.rep-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid var(--p-border);
+  padding-bottom: 1.5rem;
+  margin-bottom: 2rem;
+}
+.rep-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.rep-lmark {
+  width: 38px;
+  height: 38px;
+  background: linear-gradient(135deg,#5b6ef5,#8b5cf6);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #fff;
+  font-size: 14px;
+}
+.rep-title {
+  text-align: right;
+}
+.rep-title h1 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--p-text);
+  margin-bottom: 4px;
+}
+.rep-date {
+  font-size: 11px;
+  color: var(--p-muted);
+}
+.rep-sec {
+  margin-bottom: 2.5rem;
+}
+.rep-sec-title {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--p-accent);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid var(--p-border);
+  padding-bottom: 6px;
+}
+.rep-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-bottom: 1.5rem;
+}
+.rep-kpi {
+  background: var(--p-bg2);
+  border: 1px solid var(--p-border);
+  padding: 1rem;
+  border-radius: 10px;
+}
+.rep-kpi-val {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--p-text);
+  line-height: 1.2;
+}
+.rep-kpi-lbl {
+  font-size: 9px;
+  color: var(--p-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 4px;
+}
+.rep-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  color: var(--p-text);
+}
+.rep-table th {
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 2px solid var(--p-border);
+  color: var(--p-muted);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.rep-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--p-border);
+}
+.rep-tree-item {
+  padding: 6px 12px;
+  border-left: 2px solid var(--p-border);
+  margin-left: 14px;
+  font-size: 12px;
+}
 
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 .fi{animation:fadeIn .22s ease forwards}
@@ -224,11 +385,35 @@ tr:hover td{background:rgba(255,255,255,.013)}
   .summary-totals{grid-template-columns:1fr 1fr}
 }
 @media print{
-  header,.nav-tabs,.sidebar,.export-btns{display:none!important}
-  .page{padding:0}
-  body{background:#fff;color:#000}
-  .panel,.scard,.res-hdr,.stot{border:1px solid #ccc;background:#fff}
-  .kpi,.inp-card,.tree-row,.oc-card{background:#f5f5f5}
+  header, .nav-tabs, .sidebar, .export-options, .export-preview-header, footer {
+    display: none !important;
+  }
+  .page {
+    display: none !important;
+  }
+  #page-export {
+    display: block !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+  }
+  body {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    background: var(--p-bg, #ffffff) !important;
+    color: var(--p-text, #111111) !important;
+  }
+  .export-report-preview {
+    max-height: none !important;
+    overflow: visible !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    background: var(--p-bg) !important;
+    color: var(--p-text) !important;
+  }
 }
 
 /* ── POWER PAGE ── */
@@ -1432,14 +1617,53 @@ tr:hover td{background:rgba(255,255,255,.013)}
 
 <!-- ══════════════════ EXPORT PAGE ══════════════════ -->
 <div class="page" id="page-export">
-  <div class="export-btns">
-    <button class="ebtn primary" id="exp-copy">⎘ Copy to clipboard</button>
-    <button class="ebtn" id="exp-print">⎙ Print / Save PDF</button>
-    <button class="ebtn" id="exp-csv">↓ Download CSV</button>
-    <button class="ebtn" id="exp-json">↓ Download JSON</button>
+  <div class="export-layout">
+    <!-- Left Configuration Sidebar -->
+    <aside class="export-options panel">
+      <div class="ph"><div class="pdot" style="background:var(--accent2);box-shadow:0 0 8px var(--accent2)"></div><span class="ptitle">Report Settings</span></div>
+      <div class="pb" style="display:flex; flex-direction:column; gap:16px;">
+        <div>
+          <label class="field-label" style="margin-bottom:8px">Select Theme</label>
+          <select id="export-theme" style="width:100%; font-family:var(--font); padding:8px 10px; background:var(--bg3); border:1px solid var(--border); color:var(--text); border-radius:8px;">
+            <option value="dark">Dark (Website Style)</option>
+            <option value="light">Light (Printer Friendly)</option>
+          </select>
+        </div>
+        
+        <div>
+          <label class="field-label" style="margin-bottom:8px">Report Sections</label>
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <label class="chk-lbl"><input type="checkbox" id="chk-header" checked/> CJ Header &amp; Branding</label>
+            <label class="chk-lbl"><input type="checkbox" id="chk-calc-summary" checked/> Calculator Summary</label>
+            <label class="chk-lbl"><input type="checkbox" id="chk-calc-visual"/> Calculator Full Flow View</label>
+            <label class="chk-lbl"><input type="checkbox" id="chk-planner-summary" checked/> Multi-Planner Summary</label>
+            <label class="chk-lbl"><input type="checkbox" id="chk-planner-breakdown" checked/> Planner Machine Breakdown</label>
+            <label class="chk-lbl"><input type="checkbox" id="chk-flow-map"/> Flow Map Visual Diagram</label>
+            <label class="chk-lbl"><input type="checkbox" id="chk-canvas-analysis"/> Canvas Layout Analysis</label>
+          </div>
+        </div>
+
+        <div style="border-top:1px solid var(--border); padding-top:16px; display:flex; flex-direction:column; gap:10px;">
+          <button class="ebtn primary" id="exp-print" style="width:100%; justify-content:center;">⎙ Print / Save PDF</button>
+          <button class="ebtn" id="exp-copy" style="width:100%; justify-content:center;">⎘ Copy Text to Clipboard</button>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+            <button class="ebtn" id="exp-csv" style="justify-content:center; padding:8px;">↓ CSV</button>
+            <button class="ebtn" id="exp-json" style="justify-content:center; padding:8px;">↓ JSON</button>
+          </div>
+        </div>
+      </div>
+    </aside>
+    
+    <!-- Right Live Preview Column -->
+    <main class="export-preview-container" style="flex:1;">
+      <div class="export-preview-header" style="margin-bottom:12px; font-size:12px; color:var(--muted)">
+        Live PDF Report Preview (Reflects selected settings):
+      </div>
+      <div class="export-report-preview theme-dark" id="export-preview">
+        <!-- Rendered HTML will go here -->
+      </div>
+    </main>
   </div>
-  <div style="margin-bottom:12px;font-size:12px;color:var(--muted)">Export reflects your current calculator result and full multi-planner list.</div>
-  <div class="export-preview" id="export-preview">No data yet. Run the calculator or add items to the multi-planner first.</div>
 </div>
 
 <!-- ══════════════════ IMPORT SAVE PAGE (💾) ══════════════════ -->
@@ -2106,15 +2330,296 @@ function buildCSV(){
   return rows.map(r=>r.map(c=>`"${c}"`).join(",")).join("\n");
 }
 
-function updateExport(){
-  const txt=buildExportText();
-  const el=document.getElementById("export-preview");
-  if(!el) return;
-  el.innerHTML=txt
-    .replace(/\[ .+ \]/g,m=>`<span class="hi">${m}</span>`)
-    .replace(/\d+(\.\d+)? MW/g,m=>`<span class="hi3">${m}</span>`)
-    .replace(/\d+(\.\d+)?\/min/g,m=>`<span class="hi2">${m}</span>`)
-    .replace(/═+/g,m=>`<span class="dim">${m}</span>`);
+function renderTreeHTML(node, depth = 0) {
+  if (!node) return "";
+  let html = `
+    <div class="rep-tree-item" style="margin-top:6px;">
+      <span style="font-size:14px; margin-right:6px;">${node.ico || "📦"}</span>
+      <strong style="color:var(--p-text);">${node.name}</strong> 
+      <span style="color:var(--p-accent); font-weight:600; margin-left:8px;">${node.rateNeeded ? node.rateNeeded + "/min" : ""}</span>
+      ${node.machines > 0 ? `<span style="color:var(--p-muted); font-size:11px; margin-left:8px;">(${node.machines} × ${node.mtype})</span>` : ""}
+  `;
+  if (node.children && node.children.length > 0) {
+    html += `<div style="display:flex; flex-direction:column; gap:4px; margin-top:4px;">`;
+    node.children.forEach(c => {
+      html += renderTreeHTML(c, depth + 1);
+    });
+    html += `</div>`;
+  }
+  html += `</div>`;
+  return html;
+}
+
+function updateExport() {
+  const preview = document.getElementById("export-preview");
+  if (!preview) return;
+  
+  const theme = document.getElementById("export-theme")?.value || "dark";
+  preview.className = `export-report-preview theme-${theme}`;
+  
+  let html = "";
+  
+  // 1. HEADER
+  if (document.getElementById("chk-header")?.checked) {
+    html += `
+      <div class="rep-header">
+        <div class="rep-logo">
+          <div class="rep-lmark">CJ</div>
+          <div class="rep-ltxt" style="line-height:1.1">
+            <span style="font-size:12px; font-weight:700; color:var(--p-text); display:block; letter-spacing:0.04em;">CamJCreative</span>
+            <span style="font-size:9px; color:var(--p-muted); display:block; text-transform:uppercase;">satisfactory-planner</span>
+          </div>
+        </div>
+        <div class="rep-title">
+          <h1>FICSIT PLANNER REPORT</h1>
+          <div class="rep-date">Generated: ${new Date().toLocaleString()}</div>
+        </div>
+      </div>
+    `;
+  }
+  
+  // 2. CALCULATOR SUMMARY
+  if (document.getElementById("chk-calc-summary")?.checked && lastCalcResult) {
+    const { name, qty, oc, machines, totalMW, grandMachines, grandMW, recipe } = lastCalcResult;
+    html += `
+      <div class="rep-sec">
+        <div class="rep-sec-title">⚙ Calculator Results</div>
+        <div class="rep-grid">
+          <div class="rep-kpi">
+            <div class="rep-kpi-val" style="color:var(--p-accent);">${name}</div>
+            <div class="rep-kpi-lbl">Target Item</div>
+          </div>
+          <div class="rep-kpi">
+            <div class="rep-kpi-val">${qty}/min</div>
+            <div class="rep-kpi-lbl">Target Rate</div>
+          </div>
+          <div class="rep-kpi">
+            <div class="rep-kpi-val">${machines} × ${MT[recipe.m]||recipe.m}</div>
+            <div class="rep-kpi-lbl">Direct Machines</div>
+          </div>
+          <div class="rep-kpi">
+            <div class="rep-kpi-val">${grandMW.toLocaleString()} MW</div>
+            <div class="rep-kpi-lbl">Grand Total Power</div>
+          </div>
+        </div>
+    `;
+    
+    if (recipe.inp.length > 0) {
+      html += `
+        <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--p-muted); margin-bottom:8px;">Direct Ingredients:</div>
+        <table class="rep-table" style="margin-bottom:1rem;">
+          <thead>
+            <tr>
+              <th>Ingredient</th>
+              <th style="text-align:right;">Rate Needed</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+      recipe.inp.forEach(([inId, inRate]) => {
+        const needed = Math.round((qty/recipe.out)*inRate*100)/100;
+        html += `
+          <tr>
+            <td>${R[inId]?.name || inId}</td>
+            <td style="text-align:right; font-weight:600;">${needed}/min</td>
+          </tr>
+        `;
+      });
+      html += `
+          </tbody>
+        </table>
+      `;
+    }
+    html += `</div>`;
+  }
+  
+  // 3. CALCULATOR VISUAL FLOW
+  if (document.getElementById("chk-calc-visual")?.checked && lastCalcResult) {
+    html += `
+      <div class="rep-sec">
+        <div class="rep-sec-title">🌳 Calculator Production Tree</div>
+        <div class="rep-tree-container" style="background:var(--p-bg2); border:1px solid var(--p-border); padding:1rem; border-radius:10px;">
+          ${renderTreeHTML(lastCalcResult.tree)}
+        </div>
+      </div>
+    `;
+  }
+  
+  // 4. MULTI-PLANNER SUMMARY
+  if (document.getElementById("chk-planner-summary")?.checked && planItems.length > 0) {
+    const agg = new Map();
+    planItems.forEach(p => { flattenChain(buildChain(p.id, p.qty, 0), agg); });
+    const totalM = [...agg.values()].reduce((a,v) => a + v.machines, 0);
+    const totalMW = Math.round([...agg.values()].reduce((a,v) => a + v.totalPwr, 0)*100)/100;
+    
+    html += `
+      <div class="rep-sec">
+        <div class="rep-sec-title">📋 Multi-Planner Plan</div>
+        <div class="rep-grid">
+          <div class="rep-kpi">
+            <div class="rep-kpi-val" style="color:var(--p-accent);">${planItems.length}</div>
+            <div class="rep-kpi-lbl">Planned Products</div>
+          </div>
+          <div class="rep-kpi">
+            <div class="rep-kpi-val">${totalM}</div>
+            <div class="rep-kpi-lbl">Total Built Machines</div>
+          </div>
+          <div class="rep-kpi">
+            <div class="rep-kpi-val" style="color:var(--p-success);">${totalMW.toLocaleString()} MW</div>
+            <div class="rep-kpi-lbl">Total Power Demand</div>
+          </div>
+        </div>
+        
+        <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--p-muted); margin-bottom:8px;">Target Products:</div>
+        <table class="rep-table" style="margin-bottom:1.5rem;">
+          <thead>
+            <tr>
+              <th>Item Name</th>
+              <th style="text-align:right;">Target Rate</th>
+            </tr>
+          </thead>
+          <tbody>
+    `;
+    
+    planItems.forEach(p => {
+      const r = R[p.id];
+      html += `
+        <tr>
+          <td>${r.ico} <strong>${r.name}</strong></td>
+          <td style="text-align:right; font-weight:600; color:var(--p-accent);">${p.qty}/min</td>
+        </tr>
+      `;
+    });
+    
+    html += `
+          </tbody>
+        </table>
+      </div>
+    `;
+  }
+  
+  // 5. PLANNER MACHINE BREAKDOWN
+  if (document.getElementById("chk-planner-breakdown")?.checked && planItems.length > 0) {
+    const agg = new Map();
+    planItems.forEach(p => { flattenChain(buildChain(p.id, p.qty, 0), agg); });
+    
+    html += `
+      <div class="rep-sec">
+        <div class="rep-sec-title">⚙ Multi-Planner Machine Breakdown</div>
+        <table class="rep-table">
+          <thead>
+            <tr>
+              <th>Produced Item</th>
+              <th>Machine Type</th>
+              <th style="text-align:right;">Qty Needed</th>
+              <th style="text-align:right;">Power Cost</th>
+            </tr>
+          </thead>
+          <tbody>
+    `;
+    
+    [...agg.values()].forEach(v => {
+      html += `
+        <tr>
+          <td><strong>${v.name}</strong></td>
+          <td>${v.mtype}</td>
+          <td style="text-align:right; font-weight:600;">${v.machines}</td>
+          <td style="text-align:right; font-weight:600; color:var(--p-success);">${Math.round(v.totalPwr*100)/100} MW</td>
+        </tr>
+      `;
+    });
+    
+    html += `
+          </tbody>
+        </table>
+      </div>
+    `;
+  }
+  
+  // 6. FLOW MAP VISUAL DIAGRAM
+  if (document.getElementById("chk-flow-map")?.checked) {
+    const flowViewport = document.getElementById("flow-viewport");
+    if (flowViewport && flowViewport.querySelector("#flow-svg")?.innerHTML) {
+      html += `
+        <div class="rep-sec">
+          <div class="rep-sec-title">🧠 Flow Map Diagram</div>
+          <div class="print-flow-wrap" style="position:relative; background:var(--p-bg2); border:1px solid var(--p-border); border-radius:12px; width:100%; height:450px; overflow:hidden;">
+            <div style="position:absolute; width:100%; height:100%; transform:scale(0.85); transform-origin:top left;">
+              ${flowViewport.innerHTML}
+            </div>
+          </div>
+        </div>
+      `;
+    } else {
+      html += `
+        <div class="rep-sec">
+          <div class="rep-sec-title">🧠 Flow Map Diagram</div>
+          <div style="padding:2rem; text-align:center; background:var(--p-bg2); border:1px solid var(--p-border); border-radius:12px; color:var(--p-muted); font-size:12px;">
+            No Flow Map data rendered. Please visit the Flow Map page first.
+          </div>
+        </div>
+      `;
+    }
+  }
+  
+  // 7. CANVAS LAYOUT ANALYSIS
+  if (document.getElementById("chk-canvas-analysis")?.checked) {
+    const footprint = document.getElementById("stat-footprint")?.textContent || "0 m²";
+    const bldCount = document.getElementById("stat-buildings")?.textContent || "0";
+    const canvasBlocks = document.getElementById("canvas-blocks-container");
+    const canvasSvg = document.getElementById("canvas-svg");
+    
+    html += `
+      <div class="rep-sec">
+        <div class="rep-sec-title">🎨 Canvas Layout Analysis</div>
+        <div class="rep-grid" style="margin-bottom:1rem;">
+          <div class="rep-kpi">
+            <div class="rep-kpi-val">${footprint}</div>
+            <div class="rep-kpi-lbl">Footprint Area</div>
+          </div>
+          <div class="rep-kpi">
+            <div class="rep-kpi-val">${bldCount}</div>
+            <div class="rep-kpi-lbl">Total Buildings</div>
+          </div>
+        </div>
+    `;
+    
+    if (canvasBlocks && canvasBlocks.innerHTML.trim()) {
+      html += `
+        <div class="print-canvas-wrap" style="position:relative; background:var(--p-bg2); border:1px solid var(--p-border); border-radius:12px; width:100%; height:400px; overflow:hidden; margin-top:10px;">
+          <div style="position:absolute; width:100%; height:100%; transform:scale(0.65); transform-origin:top left;">
+            <svg style="position:absolute; width:100%; height:100%;">${canvasSvg?.innerHTML || ""}</svg>
+            <div style="position:absolute; width:100%; height:100%;">${canvasBlocks.innerHTML}</div>
+          </div>
+        </div>
+      `;
+    }
+    
+    html += `</div>`;
+  }
+  
+  // FOOTER
+  html += `
+    <div style="margin-top:3rem; border-top:1px solid var(--p-border); padding-top:1rem; font-size:10px; color:var(--p-muted); display:flex; justify-content:space-between; align-items:center;">
+      <span>Satisfactory Planner Report by CamJCreative</span>
+      <span>Satisfactory © Coffee Stain Studios</span>
+    </div>
+  `;
+  
+  preview.innerHTML = html;
+}
+
+function initExportCustomizer() {
+  const ids = [
+    "export-theme", "chk-header", "chk-calc-summary", "chk-calc-visual",
+    "chk-planner-summary", "chk-planner-breakdown", "chk-flow-map", "chk-canvas-analysis"
+  ];
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener("change", updateExport);
+    }
+  });
 }
 
 function showToast(){
@@ -3788,6 +4293,7 @@ initPower();
 calcPower();
 initDistribution();
 initSaveImport();
+initExportCustomizer();
 
 document.getElementById("srch").addEventListener("input",renderList);
 document.getElementById("qty").addEventListener("input",()=>{if(activeItem)calculate();});
