@@ -746,9 +746,282 @@ tr:hover td{background:rgba(255,255,255,.013)}
   transition: all 0.15s;
   width: 100%;
 }
-.tplt-btn:hover {
-  border-color: var(--accent3);
+/* ── DISTRIBUTION MODE (🌳) ── */
+#page-dist {
+  display: none;
+  grid-template-columns: 320px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+#page-dist.active {
+  display: grid;
+}
+.dist-sidebar {
+  position: sticky;
+  top: 78px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.dist-mode-toggle {
+  display: flex;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 3px;
+  gap: 3px;
+  margin-bottom: 14px;
+}
+.dist-toggle-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  font-family: var(--font);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 8px;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: center;
+}
+.dist-toggle-btn:hover {
   color: var(--text);
+}
+.dist-toggle-btn.active {
+  background: var(--accent);
+  color: #fff;
+}
+.dist-toggle-btn.active.exceed {
+  background: var(--accent2);
+}
+.dist-alloc-card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  padding: 14px;
+  text-align: center;
+  margin-bottom: 12px;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+.dist-alloc-card.warning-state {
+  border-color: var(--danger);
+  box-shadow: 0 0 12px rgba(248, 113, 113, 0.15);
+}
+.dist-alloc-val {
+  font-size: 2.2rem;
+  font-weight: 700;
+  font-family: var(--mono);
+  line-height: 1;
+  margin-bottom: 4px;
+  transition: color 0.25s;
+}
+.dist-alloc-label {
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+.dist-progress-bar {
+  height: 8px;
+  background: var(--bg4);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 12px 0 6px 0;
+}
+.dist-progress-fill {
+  height: 100%;
+  border-radius: 4px;
+  width: 0%;
+  transition: width 0.4s ease, background-color 0.3s ease;
+}
+.exclusion-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  font-size: 11px;
+  margin-bottom: 4px;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.15s;
+}
+.exclusion-item:hover {
+  border-color: var(--border2);
+  background: var(--bg4);
+}
+.exclusion-item.excluded {
+  opacity: 0.5;
+  text-decoration: line-through;
+  border-color: transparent;
+}
+.exclusion-item input[type=checkbox] {
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+.dist-add-form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 1.25rem;
+  align-items: flex-end;
+}
+.dist-add-form select {
+  flex: 1;
+  font-size: 13px;
+  padding: 10px 13px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  font-family: var(--font);
+  outline: none;
+}
+.dist-add-form input {
+  width: 110px;
+  font-size: 13px;
+  padding: 10px 13px;
+}
+.dist-products-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 1.25rem;
+}
+.dist-product-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.dist-product-hdr {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.dist-prod-ico {
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.dist-prod-info {
+  flex: 1;
+  min-width: 0;
+}
+.dist-prod-name {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.dist-prod-sub {
+  font-size: 11px;
+  color: var(--muted);
+}
+.dist-prod-rate-input {
+  width: 100px;
+  font-size: 13px;
+  padding: 6px 10px;
+  text-align: right;
+  margin-right: 8px;
+}
+.dist-prod-remove {
+  background: rgba(248,113,113,.12);
+  border: 1px solid rgba(248,113,113,.25);
+  color: var(--danger);
+  font-family: var(--font);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 5px 11px;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: all .15s;
+  flex-shrink: 0;
+}
+.dist-prod-remove:hover {
+  background: rgba(248,113,113,.25);
+}
+.dist-prod-usage-badge {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent3);
+  padding: 3px 8px;
+  border-radius: 5px;
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+}
+.dist-prod-usage-badge.warning {
+  color: var(--danger);
+  background: rgba(248, 113, 113, 0.1);
+  border-color: rgba(248, 113, 113, 0.2);
+}
+.dist-flow-viz {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  background: var(--bg3);
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+.dist-flow-node {
+  font-weight: 500;
+  color: var(--text);
+  background: var(--bg4);
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+}
+.dist-flow-arrow {
+  color: var(--accent3);
+  font-weight: bold;
+}
+.dist-warning-box {
+  background: rgba(248, 113, 113, 0.08);
+  border: 1px solid rgba(248, 113, 113, 0.25);
+  border-radius: 12px;
+  padding: 14px 18px;
+  font-size: 13px;
+  color: var(--danger);
+  margin-bottom: 1.25rem;
+  line-height: 1.6;
+}
+.dist-warning-title {
+  font-weight: 700;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.dist-warning-ico {
+  font-size: 16px;
+}
+.dist-warning-detail {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(248, 113, 113, 0.15);
+}
+@media(max-width:900px){
+  #page-dist.active{grid-template-columns:1fr}
+  .dist-sidebar{position:static}
 }
 </style>
 </head>
@@ -767,6 +1040,7 @@ tr:hover td{background:rgba(255,255,255,.013)}
     <div class="nav-tabs">
       <button class="nav-tab active" data-page="calc">⚙ Calculator</button>
       <button class="nav-tab" data-page="multi">📋 Multi-Planner</button>
+      <button class="nav-tab" data-page="dist">🌳 Distribution</button>
       <button class="nav-tab" data-page="flow">🧠 Flow Map</button>
       <button class="nav-tab" data-page="canvas">🎨 Canvas Layout</button>
       <button class="nav-tab" data-page="power">⚡ Power</button>
@@ -853,6 +1127,96 @@ tr:hover td{background:rgba(255,255,255,.013)}
     </div>
   </div>
   <div class="multi-results" id="multi-results"></div>
+<!-- ══════════════════ DISTRIBUTION PAGE (🌳) ══════════════════ -->
+<div class="page" id="page-dist">
+  <aside class="dist-sidebar">
+    <!-- Supply Setup -->
+    <div class="panel">
+      <div class="ph"><div class="pdot" style="background:var(--accent);box-shadow:0 0 8px var(--accent)"></div><span class="ptitle">Supply Node</span></div>
+      <div class="pb">
+        <label class="field-label">Starting Resource</label>
+        <select id="dist-start-item" style="margin-bottom:14px; font-size:13px; padding:10px 13px; font-family:var(--font)"></select>
+
+        <label class="field-label">Initial Supply / min</label>
+        <input type="number" id="dist-supply-rate" value="1080" min="0.1" step="1" style="margin-bottom:14px"/>
+        
+        <label class="field-label">Limit Enforcement</label>
+        <div class="dist-mode-toggle">
+          <button class="dist-toggle-btn active" id="dist-mode-enforce" data-mode="enforce">Enforce</button>
+          <button class="dist-toggle-btn" id="dist-mode-exceed" data-mode="exceed">Allow Excess</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Allocation Summary -->
+    <div class="panel">
+      <div class="ph"><div class="pdot" style="background:var(--accent3);box-shadow:0 0 8px var(--accent3)"></div><span class="ptitle">Allocation status</span></div>
+      <div class="pb">
+        <div class="dist-alloc-card" id="dist-alloc-card">
+          <div class="dist-alloc-val" id="dist-alloc-pct">0%</div>
+          <div class="dist-alloc-label" id="dist-alloc-status">0 / 1080 Allocated</div>
+          <div class="dist-progress-bar">
+            <div class="dist-progress-fill" id="dist-alloc-fill" style="background-color:var(--accent)"></div>
+          </div>
+          <div style="font-size:11px; color:var(--muted); margin-top:8px; display:flex; justify-content:space-between;" id="dist-alloc-avail-row">
+            <span>Available:</span><span style="font-weight:700; color:var(--success)" id="dist-alloc-avail">1080/min</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Exclusions Settings -->
+    <div class="panel">
+      <div class="ph"><div class="pdot" style="background:var(--accent2);box-shadow:0 0 8px var(--accent2)"></div><span class="ptitle">Limit Exclusions</span></div>
+      <div class="pb" style="padding:12px">
+        <div style="font-size:11px; color:var(--muted); margin-bottom:10px; line-height:1.4">
+          Uncheck resources to exclude their starting supply contribution from the total limit.
+        </div>
+        <div id="dist-exclusions-container" style="max-height:220px; overflow-y:auto; padding-right:3px">
+          <!-- Dynamically populated checklist of intermediate/final items in active trees -->
+          <div style="text-align:center; padding:15px; color:var(--dim); font-size:11px;">Add products to see exclusions</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="results">
+    <!-- Excess Overage warning / breakdown -->
+    <div id="dist-warning-container" style="display:none;"></div>
+
+    <!-- Add Product to Distribute -->
+    <div class="scard fi" style="padding:16px">
+      <div class="dist-add-form">
+        <div style="flex:1">
+          <label class="field-label" style="margin-bottom:6px">Add Product to Branch</label>
+          <select id="dist-add-select" style="font-size:13px; padding:10px 13px; font-family:var(--font)"></select>
+        </div>
+        <div>
+          <label class="field-label" style="margin-bottom:6px">Target / min</label>
+          <input type="number" id="dist-add-qty" value="10" min="0.1" step="1" style="width:110px; font-size:13px; padding:10px 13px"/>
+        </div>
+        <button class="add-btn" id="dist-add-btn" style="padding:11px 18px">+ Add Product</button>
+      </div>
+    </div>
+
+    <!-- Active branches list -->
+    <div class="scard fi">
+      <div class="shead">
+        <div class="shead-ico" style="background:rgba(91,110,245,.15)">🌳</div>
+        <span class="shead-t">Product Distribution Tree Branches</span>
+        <span class="shead-ct" id="dist-branches-count">0 products</span>
+      </div>
+      <div class="pb" style="padding:16px; display:flex; flex-direction:column; gap:12px">
+        <div class="dist-products-list" id="dist-products-list">
+          <div class="empty-state" id="dist-empty" style="padding:3rem 2rem; border-style:dashed; margin-bottom:0;">
+            <div class="empty-ico">🌳</div>
+            <div class="empty-t">No products in distribution yet</div>
+            <div class="empty-s">Add items above to branch out your starting resource.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
 </div>
 
 <!-- ══════════════════ EXPORT PAGE ══════════════════ -->
@@ -1565,6 +1929,426 @@ function initOC(){
   });
 }
 
+/* ══════════════════════════════════════════
+   NEW: DISTRIBUTION SYSTEM (🌳)
+   ══════════════════════════════════════════ */
+let distState = {
+  startItem: "iron_ingot",
+  supplyRate: 1080,
+  mode: "enforce", // "enforce" or "exceed"
+  products: [
+    { id: "modular_frame", rate: 10 },
+    { id: "rotor", rate: 15 }
+  ],
+  exclusions: new Set()
+};
+
+function canBeMadeFrom(itemId, startItemId) {
+  if (itemId === startItemId) return true;
+  const recipe = R[itemId];
+  if (!recipe || !recipe.inp) return false;
+  return recipe.inp.some(([inId]) => canBeMadeFrom(inId, startItemId));
+}
+
+function getStartResourceRequirement(itemId, rateNeeded, startItemId, exclusions, path = []) {
+  if (exclusions.has(itemId)) return 0;
+  if (itemId === startItemId) return rateNeeded;
+  
+  const recipe = R[itemId];
+  if (!recipe || !recipe.inp || recipe.inp.length === 0) return 0;
+  if (path.includes(itemId)) return 0;
+  
+  let totalStartReq = 0;
+  for (const [inId, inRate] of recipe.inp) {
+    const needed = (rateNeeded / recipe.out) * inRate;
+    totalStartReq += getStartResourceRequirement(inId, needed, startItemId, exclusions, [...path, itemId]);
+  }
+  return totalStartReq;
+}
+
+function getGatewayBreakdown(itemId, rateNeeded, startItemId, exclusions, breakdown = {}, path = []) {
+  if (exclusions.has(itemId)) return breakdown;
+  if (itemId === startItemId) return breakdown;
+  
+  const recipe = R[itemId];
+  if (!recipe || !recipe.inp || recipe.inp.length === 0) return breakdown;
+  if (path.includes(itemId)) return breakdown;
+  
+  const directInput = recipe.inp.find(([inId]) => inId === startItemId);
+  if (directInput) {
+    const needed = (rateNeeded / recipe.out) * directInput[1];
+    if (!breakdown[itemId]) {
+      breakdown[itemId] = { name: recipe.name, rate: 0, startRate: 0 };
+    }
+    breakdown[itemId].rate += rateNeeded;
+    breakdown[itemId].startRate += needed;
+    return breakdown;
+  }
+  
+  for (const [inId, inRate] of recipe.inp) {
+    const needed = (rateNeeded / recipe.out) * inRate;
+    getGatewayBreakdown(inId, needed, startItemId, exclusions, breakdown, [...path, itemId]);
+  }
+  return breakdown;
+}
+
+function getChainItems(itemId, startItemId, path = [], items = new Set()) {
+  if (itemId === startItemId) {
+    items.add(itemId);
+    return items;
+  }
+  items.add(itemId);
+  const recipe = R[itemId];
+  if (!recipe || !recipe.inp || recipe.inp.length === 0) return items;
+  if (path.includes(itemId)) return items;
+  for (const [inId] of recipe.inp) {
+    getChainItems(inId, startItemId, [...path, itemId], items);
+  }
+  return items;
+}
+
+// Calculate total requirements for a hypothetical products list and exclusions set
+function calculateTotalRequirement(productsList, exclusionsSet, startItemId) {
+  let total = 0;
+  productsList.forEach(p => {
+    total += getStartResourceRequirement(p.id, p.rate, startItemId, exclusionsSet);
+  });
+  return total;
+}
+
+function initDistribution() {
+  const startSelect = document.getElementById("dist-start-item");
+  const addSelect = document.getElementById("dist-add-select");
+  const supplyInput = document.getElementById("dist-supply-rate");
+  const enforceBtn = document.getElementById("dist-mode-enforce");
+  const exceedBtn = document.getElementById("dist-mode-exceed");
+  const addBtn = document.getElementById("dist-add-btn");
+  const addQtyInput = document.getElementById("dist-add-qty");
+
+  if (!startSelect) return;
+
+  // 1. Populate starting resource dropdown
+  const sortedItems = Object.entries(R).sort((a, b) => a[1].name.localeCompare(b[1].name));
+  startSelect.innerHTML = sortedItems.map(([id, r]) => `<option value="${id}">${r.name}</option>`).join("");
+  startSelect.value = distState.startItem;
+
+  // 2. Populate addable products based on selected starting resource
+  updateAddableProducts();
+
+  // 3. Event Listeners
+  startSelect.addEventListener("change", () => {
+    distState.startItem = startSelect.value;
+    distState.products = [];
+    distState.exclusions.clear();
+    updateAddableProducts();
+    renderDistribution();
+  });
+
+  supplyInput.addEventListener("change", () => {
+    let targetVal = parseFloat(supplyInput.value) || 0;
+    if (targetVal < 0.1) targetVal = 0.1;
+    
+    if (distState.mode === "enforce") {
+      const currentAlloc = calculateTotalRequirement(distState.products, distState.exclusions, distState.startItem);
+      if (targetVal < currentAlloc) {
+        alert("(Cannot decrease supply below current allocation in Enforce mode.)");
+        supplyInput.value = distState.supplyRate;
+        return;
+      }
+    }
+    distState.supplyRate = targetVal;
+    renderDistribution();
+  });
+
+  enforceBtn.addEventListener("click", () => {
+    const currentAlloc = calculateTotalRequirement(distState.products, distState.exclusions, distState.startItem);
+    if (currentAlloc > distState.supplyRate) {
+      alert("(Cannot enforce limit: current allocation already exceeds supply. Reduce product rates first.)");
+      return;
+    }
+    distState.mode = "enforce";
+    enforceBtn.classList.add("active");
+    exceedBtn.classList.remove("active");
+    exceedBtn.classList.remove("exceed");
+    renderDistribution();
+  });
+
+  exceedBtn.addEventListener("click", () => {
+    distState.mode = "exceed";
+    exceedBtn.classList.add("active");
+    exceedBtn.classList.add("exceed");
+    enforceBtn.classList.remove("active");
+    renderDistribution();
+  });
+
+  addBtn.addEventListener("click", () => {
+    const pId = addSelect.value;
+    const pRate = parseFloat(addQtyInput.value) || 10;
+    if (!pId) return;
+
+    // Check duplicate
+    if (distState.products.some(p => p.id === pId)) {
+      alert("Product is already added. Adjust its rate in the list below.");
+      return;
+    }
+
+    // Check enforcement limit
+    if (distState.mode === "enforce") {
+      const tempProducts = [...distState.products, { id: pId, rate: pRate }];
+      const totalNeeded = calculateTotalRequirement(tempProducts, distState.exclusions, distState.startItem);
+      if (totalNeeded > distState.supplyRate) {
+        alert("This cannot be added, limit exceeded.");
+        return;
+      }
+    }
+
+    distState.products.push({ id: pId, rate: pRate });
+    renderDistribution();
+  });
+
+  // Render initial state
+  renderDistribution();
+}
+
+function updateAddableProducts() {
+  const addSelect = document.getElementById("dist-add-select");
+  const startItem = distState.startItem;
+  
+  if (!addSelect) return;
+
+  // Find all items that consume startItem
+  const addable = Object.entries(R)
+    .filter(([id]) => id !== startItem && canBeMadeFrom(id, startItem))
+    .sort((a, b) => a[1].name.localeCompare(b[1].name));
+    
+  if (addable.length === 0) {
+    addSelect.innerHTML = `<option value="">No products can be made from this</option>`;
+  } else {
+    addSelect.innerHTML = addable.map(([id, r]) => `<option value="${id}">${r.name}</option>`).join("");
+  }
+}
+
+function renderDistribution() {
+  const listContainer = document.getElementById("dist-products-list");
+  const branchCountDisp = document.getElementById("dist-branches-count");
+  const allocPctDisp = document.getElementById("dist-alloc-pct");
+  const allocStatusDisp = document.getElementById("dist-alloc-status");
+  const allocFill = document.getElementById("dist-alloc-fill");
+  const allocAvail = document.getElementById("dist-alloc-avail");
+  const exclusionsContainer = document.getElementById("dist-exclusions-container");
+  const warningContainer = document.getElementById("dist-warning-container");
+
+  if (!listContainer) return;
+
+  const startItemName = R[distState.startItem]?.name || distState.startItem;
+
+  // 1. Calculate Allocation
+  const totalAlloc = calculateTotalRequirement(distState.products, distState.exclusions, distState.startItem);
+  const allocPct = distState.supplyRate > 0 ? Math.round((totalAlloc / distState.supplyRate) * 100) : 0;
+  const isOver = totalAlloc > distState.supplyRate;
+
+  // 2. Update Allocation Card UI
+  allocPctDisp.textContent = `${allocPct}%`;
+  allocStatusDisp.textContent = `${r2(totalAlloc)} / ${r2(distState.supplyRate)} ${startItemName}/min Allocated`;
+  allocFill.style.width = `${Math.min(allocPct, 100)}%`;
+  
+  const allocCard = document.getElementById("dist-alloc-card");
+  if (isOver) {
+    allocCard.classList.add("warning-state");
+    allocPctDisp.style.color = "var(--danger)";
+    allocFill.style.backgroundColor = "var(--danger)";
+    allocAvail.innerHTML = `<span style="color:var(--danger)">Exceeded by ${r2(totalAlloc - distState.supplyRate)}/min</span>`;
+  } else {
+    allocCard.classList.remove("warning-state");
+    allocPctDisp.style.color = "var(--accent)";
+    allocFill.style.backgroundColor = "var(--accent)";
+    allocAvail.innerHTML = `<span style="color:var(--success)">${r2(distState.supplyRate - totalAlloc)}/min free</span>`;
+  }
+
+  // 3. Render Warning Box if Exceeded in Exceed Mode
+  if (isOver && distState.mode === "exceed") {
+    const excess = totalAlloc - distState.supplyRate;
+    warningContainer.style.display = "block";
+    warningContainer.innerHTML = `
+      <div class="dist-warning-box fi">
+        <div class="dist-warning-title">
+          <span class="dist-warning-ico">⚠️</span>
+          <span>Starting Supply Limit Exceeded!</span>
+        </div>
+        <div>
+          Your branch allocations require <strong>${r2(totalAlloc)}</strong> ${startItemName}/min, which exceeds the limit of <strong>${r2(distState.supplyRate)}</strong>/min by <strong style="color:var(--danger)">${r2(excess)}</strong>/min.
+        </div>
+        <div class="dist-warning-detail">
+          <strong>Excess breakdown:</strong> To sustain this setup, you need to produce an additional <strong>${r2(excess)}</strong> ${startItemName} per minute. Check the branches below to see where resources are going.
+        </div>
+      </div>
+    `;
+  } else {
+    warningContainer.style.display = "none";
+  }
+
+  // 4. Populate Exclusions checklist
+  // Find all items involved in active branches (except starting item itself)
+  const activeChainItems = new Set();
+  distState.products.forEach(p => {
+    getChainItems(p.id, distState.startItem, [], activeChainItems);
+  });
+  activeChainItems.delete(distState.startItem);
+
+  if (activeChainItems.size === 0) {
+    exclusionsContainer.innerHTML = `<div style="text-align:center; padding:15px; color:var(--dim); font-size:11px;">Add products to see exclusions</div>`;
+  } else {
+    const sortedChain = Array.from(activeChainItems)
+      .map(id => ({ id, name: R[id]?.name || id }))
+      .sort((a, b) => a.name.localeCompare(b.name));
+      
+    exclusionsContainer.innerHTML = sortedChain.map(item => {
+      const isExcluded = distState.exclusions.has(item.id);
+      return `
+        <div class="exclusion-item${isExcluded ? ' excluded' : ''}" data-id="${item.id}">
+          <input type="checkbox" id="excl-${item.id}" ${!isExcluded ? 'checked' : ''}/>
+          <label for="excl-${item.id}" style="cursor:pointer; flex:1;">${item.name}</label>
+        </div>
+      `;
+    }).join("");
+
+    // Bind exclusion click events
+    exclusionsContainer.querySelectorAll(".exclusion-item").forEach(el => {
+      const id = el.dataset.id;
+      const checkbox = el.querySelector("input[type=checkbox]");
+      
+      const toggleExclusion = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const wasExcluded = distState.exclusions.has(id);
+        const nextExclusions = new Set(distState.exclusions);
+        
+        if (wasExcluded) {
+          // We are checking it (including it)
+          nextExclusions.delete(id);
+        } else {
+          // We are unchecking it (excluding it)
+          nextExclusions.add(id);
+        }
+
+        // Validate Enforce limit mode
+        if (distState.mode === "enforce") {
+          const nextNeeded = calculateTotalRequirement(distState.products, nextExclusions, distState.startItem);
+          if (nextNeeded > distState.supplyRate) {
+            alert("Cannot include this item, limit exceeded.");
+            return;
+          }
+        }
+        
+        distState.exclusions = nextExclusions;
+        renderDistribution();
+      };
+      
+      el.addEventListener("click", toggleExclusion);
+      checkbox.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      });
+    });
+  }
+
+  // 5. Render Active Branches List
+  branchCountDisp.textContent = `${distState.products.length} product${distState.products.length !== 1 ? 's' : ''}`;
+  
+  if (distState.products.length === 0) {
+    listContainer.innerHTML = `
+      <div class="empty-state" id="dist-empty" style="padding:3rem 2rem; border-style:dashed; margin-bottom:0;">
+        <div class="empty-ico">🌳</div>
+        <div class="empty-t">No products in distribution yet</div>
+        <div class="empty-s">Add items above to branch out your starting resource.</div>
+      </div>
+    `;
+  } else {
+    listContainer.innerHTML = distState.products.map((p, idx) => {
+      const r = R[p.id];
+      const cat = CATS[r.cat] || { col: "#888", ico: "?" };
+      const startReq = getStartResourceRequirement(p.id, p.rate, distState.startItem, distState.exclusions);
+      const isProductExcluded = distState.exclusions.has(p.id);
+
+      // Gateway breakdown visualizer
+      const breakdown = getGatewayBreakdown(p.id, p.rate, distState.startItem, distState.exclusions);
+      const breakdownItems = Object.entries(breakdown);
+
+      return `
+        <div class="dist-product-card fi">
+          <div class="dist-product-hdr">
+            <div class="dist-prod-ico" style="background:${cat.col}22;color:${cat.col}">${r.ico || cat.ico}</div>
+            <div class="dist-prod-info">
+              <div class="dist-prod-name">${r.name}</div>
+              <div class="dist-prod-sub">${MT[r.m] || r.m} · ${r.out}/min base</div>
+            </div>
+            
+            <div style="display:flex; align-items:center;">
+              <input type="number" class="dist-prod-rate-input" data-idx="${idx}" value="${p.rate}" min="0.1" step="1" />
+              <span style="font-size:11px; color:var(--muted); margin-right:12px;">/min</span>
+            </div>
+
+            <div class="dist-prod-usage-badge${isProductExcluded ? ' warning' : ''}">
+              ${isProductExcluded ? 'Excluded' : `${r2(startReq)} ${startItemName}/min`}
+            </div>
+
+            <button class="dist-prod-remove" data-idx="${idx}" style="margin-left:10px;">✕</button>
+          </div>
+
+          ${breakdownItems.length > 0 && !isProductExcluded ? `
+            <div class="dist-flow-viz">
+              <span style="font-weight:600; color:var(--text); margin-right:4px;">Flow Breakdown:</span>
+              ${breakdownItems.map(([gwId, val]) => {
+                const gwExcluded = distState.exclusions.has(gwId);
+                return `
+                  <span class="dist-flow-node" style="${gwExcluded ? 'opacity:0.4; text-decoration:line-through;' : ''}">
+                    ${val.name}: ${r2(val.rate)}/min (${r2(val.startRate)} ${startItemName})
+                  </span>
+                `;
+              }).join('<span class="dist-flow-arrow">+</span>')}
+            </div>
+          ` : ''}
+        </div>
+      `;
+    }).join("");
+
+    // Bind event handlers inside lists
+    listContainer.querySelectorAll(".dist-prod-remove").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const idx = parseInt(btn.dataset.idx);
+        distState.products.splice(idx, 1);
+        renderDistribution();
+      });
+    });
+
+    listContainer.querySelectorAll(".dist-prod-rate-input").forEach(input => {
+      input.addEventListener("change", () => {
+        const idx = parseInt(input.dataset.idx);
+        const prevVal = distState.products[idx].rate;
+        let nextVal = parseFloat(input.value) || 0.1;
+        if (nextVal < 0.1) nextVal = 0.1;
+
+        // Clone products array to test validation
+        const tempProducts = distState.products.map((p, i) => i === idx ? { ...p, rate: nextVal } : p);
+
+        // Validate Enforce limit mode
+        if (distState.mode === "enforce") {
+          const nextNeeded = calculateTotalRequirement(tempProducts, distState.exclusions, distState.startItem);
+          if (nextNeeded > distState.supplyRate) {
+            alert("This cannot be added, limit exceeded.");
+            input.value = prevVal;
+            return;
+          }
+        }
+
+        distState.products[idx].rate = nextVal;
+        renderDistribution();
+      });
+    });
+  }
+}
+
 function initNavTabs(){
   document.querySelectorAll(".nav-tab").forEach(tab=>{
     tab.addEventListener("click",()=>{
@@ -1576,6 +2360,7 @@ function initNavTabs(){
       if(page==="export") updateExport();
       if(page==="flow") drawFlowMap();
       if(page==="canvas") renderCanvas();
+      if(page==="dist") renderDistribution();
     });
   });
 }
@@ -2739,6 +3524,7 @@ initOC();
 initNavTabs();
 initPower();
 calcPower();
+initDistribution();
 
 document.getElementById("srch").addEventListener("input",renderList);
 document.getElementById("qty").addEventListener("input",()=>{if(activeItem)calculate();});
