@@ -745,7 +745,37 @@ tr:hover td{background:rgba(255,255,255,.013)}
   text-align: left;
   transition: all 0.15s;
   width: 100%;
+/* ── COLLAPSIBLE PANELS & CARDS ── */
+.panel .ph, .scard .shead {
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  padding-right: 40px !important;
+  transition: background-color 0.2s ease;
 }
+.panel .ph:hover, .scard .shead:hover {
+  background-color: rgba(255, 255, 255, 0.02) !important;
+}
+.panel .ph::after, .scard .shead::after {
+  content: "▲";
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 8px;
+  color: var(--muted);
+  transition: transform 0.2s ease, color 0.15s;
+}
+.panel:hover .ph::after, .scard:hover .shead::after {
+  color: var(--text);
+}
+.panel.collapsed .ph::after, .scard.collapsed .shead::after {
+  transform: translateY(-50%) rotate(180deg);
+}
+.panel.collapsed .pb, .scard.collapsed > *:not(.shead) {
+  display: none !important;
+}
+
 /* ── DISTRIBUTION MODE (🌳) ── */
 #page-dist {
   display: none;
@@ -1108,23 +1138,30 @@ tr:hover td{background:rgba(255,255,255,.013)}
 
 <!-- ══════════════════ MULTI-PLANNER PAGE ══════════════════ -->
 <div class="page" id="page-multi">
-  <div class="multi-add-row">
-    <div style="flex:1">
-      <label class="field-label" style="margin-bottom:6px">Add item to plan</label>
-      <select id="multi-select" style="font-size:13px;padding:10px 13px;font-family:var(--font)"></select>
+  <div class="panel" style="margin-bottom: 1.25rem;">
+    <div class="ph"><div class="pdot" style="background:var(--accent2);box-shadow:0 0 8px var(--accent2)"></div><span class="ptitle">Add item to plan</span></div>
+    <div class="pb">
+      <div class="multi-add-row" style="margin-bottom: 0;">
+        <div style="flex:1">
+          <label class="field-label" style="margin-bottom:6px">Select Item</label>
+          <select id="multi-select" style="font-size:13px;padding:10px 13px;font-family:var(--font)"></select>
+        </div>
+        <div>
+          <label class="field-label" style="margin-bottom:6px">Qty / min</label>
+          <input type="number" id="multi-qty" value="10" min="0.1" step="1" style="width:100px;font-size:13px;padding:10px 13px"/>
+        </div>
+        <button class="add-btn" id="multi-add" style="margin-bottom: 0;">+ Add</button>
+      </div>
     </div>
-    <div>
-      <label class="field-label" style="margin-bottom:6px">Qty / min</label>
-      <input type="number" id="multi-qty" value="10" min="0.1" step="1" style="width:100px;font-size:13px;padding:10px 13px"/>
-    </div>
-    <button class="add-btn" id="multi-add">+ Add</button>
   </div>
-  <div class="plan-items" id="plan-items">
-    <div class="empty-state" id="plan-empty">
+
+  <div class="plan-items">
+    <div class="empty-state" id="plan-empty" style="margin-bottom: 1.25rem;">
       <div class="empty-ico">📋</div>
       <div class="empty-t">No items in plan yet</div>
       <div class="empty-s">Add items above to build your factory plan.</div>
     </div>
+    <div id="plan-list" class="plan-items" style="margin-bottom: 1.25rem;"></div>
   </div>
   <div class="multi-results" id="multi-results"></div>
 <!-- ══════════════════ DISTRIBUTION PAGE (🌳) ══════════════════ -->
@@ -1689,11 +1726,17 @@ function calculate(){
 
 /* ══════════ MULTI-PLANNER ══════════ */
 function renderPlanItems(){
-  const el=document.getElementById("plan-items");
+  const listEl=document.getElementById("plan-list");
   const empty=document.getElementById("plan-empty");
-  if(planItems.length===0){empty.style.display="block";el.innerHTML="";el.appendChild(empty);renderMultiResults();return;}
+  if(!listEl || !empty) return;
+  if(planItems.length===0){
+    empty.style.display="block";
+    listEl.innerHTML="";
+    renderMultiResults();
+    return;
+  }
   empty.style.display="none";
-  el.innerHTML=planItems.map((p,i)=>{
+  listEl.innerHTML=planItems.map((p,i)=>{
     const r=R[p.id];const cat=CATS[r.cat]||{col:"#888",ico:"?"};
     return `<div class="plan-item fi">
       <div class="plan-item-ico" style="background:${cat.col}22;color:${cat.col}">${r.ico||cat.ico}</div>
@@ -3561,6 +3604,22 @@ document.getElementById("exp-csv").addEventListener("click",()=>{
 document.getElementById("exp-json").addEventListener("click",()=>{
   const data={calculator:lastCalcResult?{item:lastCalcResult.name,qty:lastCalcResult.qty,oc:lastCalcResult.oc,machines:lastCalcResult.machines,totalMW:lastCalcResult.totalMW}:null,planner:planItems.map(p=>({id:p.id,name:R[p.id].name,qty:p.qty}))};
   downloadFile(JSON.stringify(data,null,2),"ficsit-factory-plan.json","application/json");
+});
+
+// Collapsible panels & section cards
+document.addEventListener("click", (e) => {
+  const ph = e.target.closest(".panel .ph");
+  if (ph) {
+    const panel = ph.closest(".panel");
+    panel.classList.toggle("collapsed");
+    return;
+  }
+  const shead = e.target.closest(".scard .shead");
+  if (shead) {
+    const scard = shead.closest(".scard");
+    scard.classList.toggle("collapsed");
+    return;
+  }
 });
 </script>
 </body>
