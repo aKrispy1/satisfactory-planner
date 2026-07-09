@@ -1164,6 +1164,8 @@ tr:hover td{background:rgba(255,255,255,.013)}
     <div id="plan-list" class="plan-items" style="margin-bottom: 1.25rem;"></div>
   </div>
   <div class="multi-results" id="multi-results"></div>
+</div>
+
 <!-- ══════════════════ DISTRIBUTION PAGE (🌳) ══════════════════ -->
 <div class="page" id="page-dist">
   <aside class="dist-sidebar">
@@ -1175,7 +1177,7 @@ tr:hover td{background:rgba(255,255,255,.013)}
         <select id="dist-start-item" style="margin-bottom:14px; font-size:13px; padding:10px 13px; font-family:var(--font)"></select>
 
         <label class="field-label">Initial Supply / min</label>
-        <input type="number" id="dist-supply-rate" value="1080" min="0.1" step="1" style="margin-bottom:14px"/>
+        <input type="number" id="dist-supply-rate" value="1080" min="0.1" step="any" style="margin-bottom:14px"/>
         
         <label class="field-label">Limit Enforcement</label>
         <div class="dist-mode-toggle">
@@ -2289,10 +2291,6 @@ function renderDistribution() {
       };
       
       el.addEventListener("click", toggleExclusion);
-      checkbox.addEventListener("click", (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-      });
     });
   }
 
